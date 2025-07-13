@@ -31,6 +31,7 @@ class User extends Authenticatable {
         'phone_number',
 
         'citizenship',
+        'other_country_citizenship',
         'birth_of_date',
 
         'birth_address',

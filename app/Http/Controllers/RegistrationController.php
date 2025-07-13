@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class RegistrationController extends Controller {
     public function index() {
-        return view('pages.registration');
+        $provinces = Wilayah::select('provinsi')
+            ->distinct()
+            ->get();
+        $regencies = Wilayah::select('nama_wilayah')
+            ->get();
+
+        return view('pages.registration', ['provinces' => $provinces, 'regencies' => $regencies]);
     }
 
     /**
@@ -29,6 +36,7 @@ class RegistrationController extends Controller {
             'phone_number' => $request->input('phone_number'),
 
             'citizenship' => $request->input('citizenship'),
+            'other_country_citizenship' => $request->input('other_country_citizenship'),
             'birth_of_date' => $request->input('birth_of_date'),
 
             'birth_address' => $request->input('birth_address'),

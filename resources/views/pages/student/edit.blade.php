@@ -37,12 +37,12 @@
 
             <div class="space-y-1.5">
                 <label for="full_name" class="font-medium text-sm">Nama Lengkap</label>
-                <input type="text" id="full_name" name="full_name" class="input input-bordered w-full" disabled value="{{ $student['full_name'] }}" disabled />
+                <input type="text" id="full_name" name="full_name" class="input input-bordered w-full" value="{{ $student['full_name'] }}" required />
             </div>
 
             <div class="space-y-1.5">
                 <label for="email" class="font-medium text-sm">Email</label>
-                <input type="email" id="email" name="email" class="input input-bordered w-full" disabled value="{{ $student['email'] }}" />
+                <input type="email" id="email" name="email" class="input input-bordered w-full" required value="{{ $student['email'] }}" />
             </div>
 
             <hr class="col-span-2 border-gray-200 border-[1px] my-2" />
@@ -57,13 +57,23 @@
             </div>
 
             <div class="space-y-1.5">
-                <label for="province" class="font-medium text-sm">Provinsi</label>
-                <input type="text" id="province" name="province" class="input input-bordered w-full" required value="{{ $student['province'] }}" />
+                <label for="province" class="font-medium text-sm">Provinsi *</label>
+                <select name="province" id="province" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($provinces as $province)
+                    <option value="{{ $province['provinsi'] }}" @if($province['provinsi']==$student['province']) selected @endif>{{ $province['provinsi'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
-                <label for="regency" class="font-medium text-sm">Kabupaten</label>
-                <input type="text" id="regency" name="regency" class="input input-bordered w-full" required value="{{ $student['regency'] }}" />
+                <label for="regency" class="font-medium text-sm">Kota/Kabupaten *</label>
+                <select name="regency" id="regency" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($regencies as $regency)
+                    <option value="{{ $regency['nama_wilayah'] }}" @if($regency['nama_wilayah']==$student['regency']) selected @endif>{{ $regency['nama_wilayah'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
@@ -92,7 +102,6 @@
                     <option value="WNA" @if($student['citizenship']=='WNA' ) selected @endif>WNA</option>
                 </select>
 
-                <input type="text" id="other_country_citizenship" name="other_country_citizenship" class="input input-bordered w-full hidden" />
             </div>
 
             <div class="space-y-1.5">
@@ -100,22 +109,37 @@
                 <input type="date" id="birth_of_date" name="birth_of_date" class="input input-bordered w-full" required value="{{ $student['birth_of_date'] }}" />
             </div>
 
+            <input type="text" id="other_country_citizenship" name="other_country_citizenship" class="input input-bordered col-span-2 w-full @if($student['citizenship'] != 'WNA') hidden @endif" placeholder="Nama negaranya..." value="{{ $student['other_country_citizenship'] }}" />
+
+
             <hr class="col-span-2 border-gray-200 border-[1px] my-2" />
 
             <div class="space-y-1.5">
-                <label for="birth_address" class="font-medium text-sm">Tempat Lahir</label>
+                <label for="birth_address" class="font-medium text-sm">Kota/Kabupaten Kelahiran</label>
                 <input type="text" id="birth_address" name="birth_address" class="input input-bordered w-full" required value="{{ $student['birth_address'] }}" />
             </div>
 
             <div class="space-y-1.5">
-                <label for="birth_province" class="font-medium text-sm">Provinsi Kelahiran</label>
-                <input type="text" id="birth_province" name="birth_province" class="input input-bordered w-full" required value="{{ $student['birth_province'] }}" />
+                <label for="birth_province" class="font-medium text-sm">Provinsi *</label>
+                <select name="birth_province" id="birth_province" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($provinces as $province)
+                    <option value="{{ $province['provinsi'] }}" @if($province['provinsi']==$student['birth_province']) selected @endif>{{ $province['provinsi'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
-                <label for="birth_regency" class="font-medium text-sm">Kota/Kabupaten Kelahiran</label>
-                <input type="text" id="birth_regency" name="birth_regency" class="input input-bordered w-full" required value="{{ $student['birth_regency'] }}" />
+                <label for="birth_regency" class="font-medium text-sm">Kota/Kabupaten *</label>
+                <select name="birth_regency" id="birth_regency" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($regencies as $regency)
+                    <option value="{{ $regency['nama_wilayah'] }}" @if($regency['nama_wilayah']==$student['birth_regency']) selected @endif>{{ $regency['nama_wilayah'] }}</option>
+                    @endforeach
+                </select>
             </div>
+
+
 
             <div class="space-y-1.5">
                 <label for="other_country" class="font-medium text-sm">Negara Lain (jika tempat lahir diluar negeri)</label>
@@ -178,5 +202,14 @@
             document.getElementById('update_photo').submit();
         }
     });
+
+    document.querySelector('#citizenship').addEventListener('change', function(e) {
+        console.log(e.target.value);
+        if (e.target.value == 'WNA') {
+            document.querySelector('#other_country_citizenship').classList.remove('hidden');
+        } else {
+            document.querySelector('#other_country_citizenship').classList.add('hidden');
+        }
+    })
 </script>
 @endsection

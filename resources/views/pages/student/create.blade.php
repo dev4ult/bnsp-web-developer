@@ -32,12 +32,22 @@
 
             <div class="space-y-1.5">
                 <label for="province" class="font-medium text-sm">Provinsi *</label>
-                <input type="text" id="province" name="province" class="input input-bordered w-full" required />
+                <select name="province" id="province" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($provinces as $province)
+                    <option value="{{ $province['provinsi'] }}">{{ $province['provinsi'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
-                <label for="regency" class="font-medium text-sm">Kabupaten *</label>
-                <input type="text" id="regency" name="regency" class="input input-bordered w-full" required />
+                <label for="regency" class="font-medium text-sm">Kota/Kabupaten *</label>
+                <select name="regency" id="regency" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($regencies as $regency)
+                    <option value="{{ $regency['nama_wilayah'] }}">{{ $regency['nama_wilayah'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
@@ -66,13 +76,15 @@
                     <option value="WNA">WNA</option>
                 </select>
 
-                <input type="text" id="other_country_citizenship" name="other_country_citizenship" class="input input-bordered w-full hidden" />
             </div>
 
             <div class="space-y-1.5">
                 <label for="birth_of_date" class="font-medium text-sm">Tanggal Lahir *</label>
                 <input type="date" id="birth_of_date" name="birth_of_date" class="input input-bordered w-full" required />
             </div>
+
+            <input type="text" id="other_country_citizenship" name="other_country_citizenship" class="input input-bordered col-span-2 w-full hidden" placeholder="Nama negaranya..." />
+
 
             <hr class="col-span-2 border-gray-200 border-[1px] my-2" />
 
@@ -83,12 +95,22 @@
 
             <div class="space-y-1.5">
                 <label for="birth_province" class="font-medium text-sm">Provinsi Kelahiran *</label>
-                <input type="text" id="birth_province" name="birth_province" class="input input-bordered w-full" required />
+                <select name="birth_province" id="birth_province" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($provinces as $province)
+                    <option value="{{ $province['provinsi'] }}">{{ $province['provinsi'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
                 <label for="birth_regency" class="font-medium text-sm">Kota/Kabupaten Kelahiran *</label>
-                <input type="text" id="birth_regency" name="birth_regency" class="input input-bordered w-full" required />
+                <select name="birth_regency" id="birth_regency" class="select select-bordered w-full" required>
+                    <option value="">Pilih ...</option>
+                    @foreach ($regencies as $regency)
+                    <option value="{{ $regency['nama_wilayah'] }}">{{ $regency['nama_wilayah'] }}</option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="space-y-1.5">
@@ -149,4 +171,14 @@
         <button type="submit" class="btn btn-block btn-primary mt-6">Registrasi / Tambah Akun</button>
     </form>
 </div>
+<script>
+    document.querySelector('#citizenship').addEventListener('change', function(e) {
+        console.log(e.target.value);
+        if (e.target.value == 'WNA') {
+            document.querySelector('#other_country_citizenship').classList.remove('hidden');
+        } else {
+            document.querySelector('#other_country_citizenship').classList.add('hidden');
+        }
+    })
+</script>
 @endsection

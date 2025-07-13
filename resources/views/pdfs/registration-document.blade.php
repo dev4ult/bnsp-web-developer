@@ -86,9 +86,14 @@
                         <td style="vertical-align: top;">{{ $user['birth_province'] }}</td>
                     </tr>
                     <tr>
-                        <td style="vertical-align: top; padding-bottom: 1rem">Kabupaten / Kota Kelahiran</td>
+                        <td style="vertical-align: top">Kabupaten / Kota Kelahiran</td>
                         <td style="vertical-align: top; padding: 0 1rem">:</td>
                         <td style="vertical-align: top;">{{ $user['birth_regency'] }}</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; padding-bottom: 1rem">Negara (jika lahir diluar negeri)</td>
+                        <td style="vertical-align: top; padding: 0 1rem">:</td>
+                        <td style="vertical-align: top;">{{ $user['other_country'] }}</td>
                     </tr>
 
                     <tr>

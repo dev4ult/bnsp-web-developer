@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Wilayah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,7 +23,12 @@ class StudentController extends Controller {
     }
 
     public function create() {
-        return view('pages.student.create');
+        $provinces = Wilayah::select('provinsi')
+            ->distinct()
+            ->get();
+        $regencies = Wilayah::select('nama_wilayah')
+            ->get();
+        return view('pages.student.create', ['provinces' => $provinces, 'regencies' => $regencies]);
     }
 
     public function store(Request $request) {
@@ -40,6 +46,7 @@ class StudentController extends Controller {
             'phone_number' => $request->input('phone_number'),
 
             'citizenship' => $request->input('citizenship'),
+            'other_country_citizenship' => $request->input('other_country_citizenship'),
             'birth_of_date' => $request->input('birth_of_date'),
 
             'birth_address' => $request->input('birth_address'),
@@ -76,7 +83,13 @@ class StudentController extends Controller {
             return redirect(route('pages.student.index'))->with('error', 'Akun mahasiswa tidak ditemukan!');
         }
 
-        return view('pages.student.edit', ['student' => $student]);
+        $provinces = Wilayah::select('provinsi')
+            ->distinct()
+            ->get();
+        $regencies = Wilayah::select('nama_wilayah')
+            ->get();
+
+        return view('pages.student.edit', ['student' => $student, 'provinces' => $provinces, 'regencies' => $regencies]);
     }
 
     public function update(Request $request, string $id) {
@@ -99,6 +112,7 @@ class StudentController extends Controller {
             'phone_number' => $request->input('phone_number'),
 
             'citizenship' => $request->input('citizenship'),
+            'other_country_citizenship' => $request->input('other_country_citizenship'),
             'birth_of_date' => $request->input('birth_of_date'),
 
             'birth_address' => $request->input('birth_address'),
